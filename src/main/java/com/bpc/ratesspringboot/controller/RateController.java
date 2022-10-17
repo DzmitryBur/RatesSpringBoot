@@ -37,12 +37,13 @@ public class RateController {
         String uri = String.format("https://www.nbrb.by/api/exrates/rates/%s?ondate=%s&parammode=2", cur, ondate);
         RestTemplate restTemplate = new RestTemplate();
         String currentRate = restTemplate.getForObject(uri, String.class);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate currentDate = LocalDate.parse(ondate, formatter);
         LocalDate previousDate  = currentDate.minusDays(1);
+
         String uriDiff = String.format("https://www.nbrb.by/api/exrates/rates/%s?ondate=%s&parammode=2", cur, previousDate);
         String previousRate = restTemplate.getForObject(uriDiff, String.class);
-
 
         ObjectMapper om = new ObjectMapper();
         StringReader reader = new StringReader(currentRate);
